@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context=".ui.AddNotesFragment">
+
+    <EditText
+        android:id="@+id/et_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_edittext"
+        android:hint="Title"
+        android:textColor="@android:color/white"
+        android:fontFamily="monospace"
+        android:textSize="25sp"
+        android:padding="5dp"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_notes"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_edittext"
+        android:gravity="start"
+        android:hint="Notes"
+        android:textColor="@android:color/white"
+        android:padding="5dp"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_title" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:strokeColor="@color/colorPrimary"
+        android:backgroundTint="@android:color/holo_red_light"
+        app:icon="@drawable/ic_save"
+        android:contentDescription="Save"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        app:layout_constraintBottom_toBottomOf="@+id/et_notes"
+        app:layout_constraintEnd_toEndOf="@+id/et_notes" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
