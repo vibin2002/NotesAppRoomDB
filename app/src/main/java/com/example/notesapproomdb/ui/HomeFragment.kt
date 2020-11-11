@@ -34,8 +34,8 @@ class HomeFragment : Fragment() {
         recycler_view.layoutManager = LinearLayoutManager(context)
 
         CoroutineScope(Dispatchers.Main).launch {
-            val note = NoteDatabase(requireContext()).getNoteDao().getAllNotes()
-            recycler_view.adapter = NotesAdapter(note)
+            val notedb = NoteDatabase(requireContext()).getNoteDao().getAllNotes()
+            recycler_view.adapter = NotesAdapter(notedb)
         }
 
         btn_add.setOnClickListener{

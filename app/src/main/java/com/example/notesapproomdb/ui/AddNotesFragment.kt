@@ -1,12 +1,12 @@
 package com.example.notesapproomdb.ui
 
+import android.app.AlertDialog
 import android.os.AsyncTask
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.Navigation
 import com.example.notesapproomdb.R
 import com.example.notesapproomdb.db.Note
 import com.example.notesapproomdb.db.NoteDatabase
@@ -25,6 +25,7 @@ class AddNotesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_notes, container, false)
     }
@@ -76,22 +77,40 @@ class AddNotesFragment : Fragment() {
         }
     }
 
-//    private fun saveNotes(note: Note)
-//    {
-//        class SaveNotes : AsyncTask<Void,Void,Void>(){
-//            override fun doInBackground(vararg p0: Void?): Void? {
-//                NoteDatabase(requireContext()).getNoteDao().addNote(note)
-//                return null
-//            }
-//
-//            override fun onPostExecute(result: Void?) {
-//                super.onPostExecute(result)
-//                Toast.makeText(activity, "Notes Saved", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//
-//        SaveNotes().execute()
-//    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId)
+        {
+            R.id.delete -> if (note != null) deleteNote() else {
+                Snackbar.make(requireView(),"Cannot delete",Snackbar.LENGTH_SHORT).show()
+            }
+        }
 
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun deleteNote() {
+        AlertDialog.Builder(context).apply {
+            setTitle("Are you sure?")
+            setMessage("The note will be deleted permanently")
+            setPositiveButton("Yes")
+            { _,_ ->
+                CoroutineScope(Dispatchers.Main).launch {
+                    NoteDatabase(context).getNoteDao().deleteNote(note!!)
+                    val action = AddNotesFragmentDirections.actionAddNotesFragmentToHomeFragment()
+                    Navigation.findNavController(requireView()).navigate(action)
+                }
+            }
+            setNegativeButton("No")
+            {
+                _,_ -> setCancelable(true)
+            }
+        }.create().show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu,menu)
+
+    }
 
 }

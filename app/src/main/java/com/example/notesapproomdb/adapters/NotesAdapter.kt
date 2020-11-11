@@ -35,6 +35,6 @@ class NotesAdapter(val notes:List<Note>) : RecyclerView.Adapter<NotesAdapter.MyV
         }
     }
 
-
     class MyViewHolder(val view:View) : RecyclerView.ViewHolder(view)
+
 }
