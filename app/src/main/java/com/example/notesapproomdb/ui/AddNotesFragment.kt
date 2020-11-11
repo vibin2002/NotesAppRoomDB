@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.example.notesapproomdb.R
 import com.example.notesapproomdb.db.Note
 import com.example.notesapproomdb.db.NoteDatabase
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_add_notes.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +18,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class AddNotesFragment : Fragment() {
+
+    var note:Note? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +31,12 @@ class AddNotesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        arguments?.let {
+            note = AddNotesFragmentArgs.fromBundle(it).note
+            et_notes.setText(note?.note)
+            et_title.setText(note?.title)
+        }
 
         //NoteDatabase(requireActivity()).getNoteDao()
         btn_save.setOnClickListener{
@@ -51,9 +60,18 @@ class AddNotesFragment : Fragment() {
 //            saveNotes(note)
 
             CoroutineScope(Dispatchers.Main).launch {
-                val note = Note(title = notestitle,note = notesBody)
-                NoteDatabase(requireContext()).getNoteDao().addNote(note)
-                Toast.makeText(activity, "Notes Saved", Toast.LENGTH_SHORT).show()
+                val mnote = Note(title = notestitle,note = notesBody)
+                if(note == null)
+                {
+                    NoteDatabase(requireContext()).getNoteDao().addNote(mnote)
+                    Snackbar.make(requireView(),"Note saved",Snackbar.LENGTH_SHORT).show()
+                }
+                else
+                {
+                    mnote.id = note!!.id
+                    NoteDatabase(requireContext()).getNoteDao().updateNotes(mnote)
+                    Snackbar.make(requireView(),"Note updated",Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
     }

@@ -13,6 +13,11 @@
         <action
             android:id="@+id/action_addNotesFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <argument
+            app:argType="com.example.notesapproomdb.db.Note"
+            android:name="Note"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
